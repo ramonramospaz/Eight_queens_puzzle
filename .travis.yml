@@ -3,8 +3,10 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install ortools
-  - pip install SQLAlchemy
+  - python3 -m pip install -U ortools
+  - python3 -m pip install -U SQLAlchemy
+  #- pip install ortools
+  #- pip install SQLAlchemy
 # command to run tests
 script:
-  - pytest
+  - python3 -m pytest
