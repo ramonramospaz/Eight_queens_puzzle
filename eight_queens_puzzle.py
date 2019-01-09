@@ -3,12 +3,13 @@
 from __future__ import print_function
 import sys
 from ortools.sat.python import cp_model
+from databaseQueensPuzzle import check_database_exist,insert_result_queens_puzzle,show_results_queens_puzzle
 
-def main(board_size):
+def solve_puzzle(board_size):
   model = cp_model.CpModel()
   # Creates the variables.
   # The array index is the column, and the value is the row.
-  queens = [model.NewIntVar(0, board_size - 1, 'x%i' % i)
+  queens = [model.NewIntVar(0, board_size - 1, '%i' % i)
             for i in range(board_size)]
             
   # Creates the constraints.
@@ -37,35 +38,50 @@ def main(board_size):
   solver = cp_model.CpSolver()
   ### By default is only 1
   number_solutions = 1
-  solution_printer = SolutionPrinter(queens,number_solutions) 
+  solution_printer = SolutionPrinter(queens,number_solutions,board_size) 
   status = solver.SearchForAllSolutions(model, solution_printer)
   print()
+  return solution_printer.returnResult
   
 
 class SolutionPrinter(cp_model.CpSolverSolutionCallback):
   """Print solutions."""
 
-  def __init__(self, variables, limit):
+  def __init__(self, variables, limit,board_size):
     cp_model.CpSolverSolutionCallback.__init__(self)
     self.__variables = variables
     self.__solution_count = 0
     self.__solution_limit = limit
+    self.__board_size = board_size
+    self.returnResult = []
 
   def OnSolutionCallback(self):
     self.__solution_count += 1
+    result=""
     for v in self.__variables:
-      print('%s = %i' % (v, self.Value(v)), end = ' ')
+      print('col %s - row %i,' % (v, self.Value(v)), end = ' ')
+      result+="col "+str(v)+" - row: "+str(self.Value(v))+", "
+      self.returnResult.append(str(v))
+      self.returnResult.append(str(self.Value(v)))
+    insert_result_queens_puzzle(self.__board_size,result)
     print()
     if self.__solution_count >= self.__solution_limit:
         self.StopSearch()
 
 
 if __name__ == '__main__':
+  check_database_exist()
   # By default, solve the 8x8 problem.
   board_size = 8
   if len(sys.argv) > 1:
     board_size = int(sys.argv[1])
-  if board_size < 8:
+
+  if board_size < 8 and board_size >= 0:
     board_size = 8
     print("Change size of the table to 8")
-  main(board_size)
+  
+  if board_size > 0:
+    print("The result is:")
+    print(solve_puzzle(board_size))
+  elif board_size == -1:
+    show_results_queens_puzzle()
