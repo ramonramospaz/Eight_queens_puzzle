@@ -7,4 +7,4 @@ install:
   - pip install SQLAlchemy
 # command to run tests
 script:
-  - python3 -m pytest
+  - pytest
