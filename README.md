@@ -1,4 +1,4 @@
-# Eight_queens_puzzle
+# Eight Queens Puzzle
 Solutions of the Eight queens puzzle with constraint programming with python 3
 
 ## External libraries used:
