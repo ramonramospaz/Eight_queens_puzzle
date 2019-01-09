@@ -2,10 +2,11 @@
 Solutions of the Eight queens puzzle with constraint programming with python 3
 
 ## External libraries used:
-1) **ortools:**  is an open source software suite for optimization, tuned for tackling the world's toughest problems in vehicle routing, flows, integer and linear programming, and constraint programming
-2) **sqlalchemy:**  is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
+This libraries need to be installed before running the script.
+1) **ortools:**  is an open source software suite for optimization, tuned for tackling the world's toughest problems in vehicle routing, flows, integer and linear programming, and constraint programming. https://developers.google.com
+2) **sqlalchemy:**  is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL. https://www.sqlalchemy.org/
 
-## Test execution
+## running test
 Use the command python3 -m pytest
 
 ## Run Script
