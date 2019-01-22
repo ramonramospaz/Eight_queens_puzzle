@@ -21,8 +21,9 @@ services:
       - /srv/docker/postgresql:/var/lib/postgresql
 
   queen:
-    build: .
-    command: pytest test_eight_queens_puzzle.py
+    build:
+      context: .
+      dockerfile: DockerfileTest
     networks:
       - backend
     depends_on:

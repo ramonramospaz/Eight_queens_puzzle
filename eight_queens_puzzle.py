@@ -11,6 +11,7 @@ class QueenSolve:
     self.solve()
 
   def solve(self):
+    check_database_exist()
     positions = [-1] * self.size
     self.put_queen(positions, 0)
 
@@ -43,7 +44,6 @@ class QueenSolve:
     insert_result_queens_puzzle(self.size,self.queenSolution)
 
 if __name__ == '__main__':
-  check_database_exist()
   # By default, solve the 8x8 problem.
   board_size = 8
   if len(sys.argv) > 1:

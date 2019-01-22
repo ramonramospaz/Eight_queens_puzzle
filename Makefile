@@ -22,4 +22,4 @@ docker-shell:
 clean-docker: clean-pyc
 		$(DOCKER) down --rmi local
 
-.PHONY: clean-pyc docker-build docker-exec docker-shell clean-docker
+.PHONY: clean-pyc docker-build docker-exec docker-shell clean-docker docker-test
