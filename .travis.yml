@@ -3,8 +3,9 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install ortools
-  - pip install SQLAlchemy
+  - python3 -m pip install -U ortools
+  - python3 -m pip install -U SQLAlchemy
+  - python3 -m pip install -U psycopg2
 # command to run tests
 script:
-  - pytest
+  - make docker-test

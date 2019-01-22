@@ -14,3 +14,10 @@ Use the command python3 -m pytest
 2) **./eight_queens_puzzle.py N**: solve the queen puzzle with a board of NxN
 2) **./eight_queens_puzzle.py -1**: Show all the results of the previous running of the Script.
 
+## Run Script using Docker-Compose
+1) **make docker-build**: create the images, containers and networks.
+2) **make docker-exec**: run the eight queens puzzle with the default parameters.
+3) **make docker-shell**: run the container and put you into the shell, so you can run manualy.
+4) **make clean-docker**: clean the images and containers.
+5) **make docker-test**: run the pytest in the container.
+
