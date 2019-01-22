@@ -4,6 +4,7 @@ ADD eight_queens_puzzle.py /
 ADD databaseQueensPuzzle.py /
 ADD test_eight_queens_puzzle.py /
 ADD README.md /
+ADD pytest.ini /
 
 RUN python3 -m pip install -U SQLAlchemy
 RUN python3 -m pip install -U psycopg2-binary 

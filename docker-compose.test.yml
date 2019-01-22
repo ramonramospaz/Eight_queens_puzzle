@@ -22,7 +22,7 @@ services:
 
   queen:
     build: .
-    command: ./pytest
+    command: python ./test_eight_queens_puzzle.py
     networks:
       - backend
     depends_on:
