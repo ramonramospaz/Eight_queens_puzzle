@@ -2,72 +2,45 @@
 
 from __future__ import print_function
 import sys
-from ortools.sat.python import cp_model
 from databaseQueensPuzzle import check_database_exist,insert_result_queens_puzzle,show_results_queens_puzzle
 
-def solve_puzzle(board_size):
-  model = cp_model.CpModel()
-  # Creates the variables.
-  # The array index is the column, and the value is the row.
-  queens = [model.NewIntVar(0, board_size - 1, '%i' % i)
-            for i in range(board_size)]
-            
-  # Creates the constraints.
-  # The following sets the constraint that all queens are in different rows.
-  model.AddAllDifferent(queens)
+class QueenSolve:
+  def __init__(self,size):
+    self.size=size
+    self.queenSolution=""
+    self.solve()
 
-  # Note: all queens must be in different columns because the indices of queens are all different.
+  def solve(self):
+    positions = [-1] * self.size
+    self.put_queen(positions, 0)
 
-  # The following sets the constraint that no two queens can be on the same diagonal.
-  for i in range(board_size):
-    # Note: is not used in the inner loop.
-    diag1 = []
-    diag2 = []
-    for j in range(board_size):
-      # Create variable array for queens(j) + j.
-      q1 = model.NewIntVar(0, 2 * board_size, 'diag1_%i' % i)
-      diag1.append(q1)
-      model.Add(q1 == queens[j] + j)
-      # Create variable array for queens(j) - j.
-      q2 = model.NewIntVar(-board_size, board_size, 'diag2_%i' % i)
-      diag2.append(q2)
-      model.Add(q2 == queens[j] - j)
-    model.AddAllDifferent(diag1)
-    model.AddAllDifferent(diag2)
-  ### Solve model.
-  solver = cp_model.CpSolver()
-  ### By default is only 1
-  number_solutions = 1
-  solution_printer = SolutionPrinter(queens,number_solutions,board_size) 
-  status = solver.SearchForAllSolutions(model, solution_printer)
-  print()
-  return solution_printer.returnResult
-  
+  def put_queen(self, positions, target_row):
+    if self.queenSolution == "":
+      if target_row == self.size:
+        self.show_solution(positions)
+      else:
+        for column in range(self.size):
+          if self.check_place(positions, target_row, column):
+            positions[target_row] = column
+            self.put_queen(positions, target_row + 1)
 
-class SolutionPrinter(cp_model.CpSolverSolutionCallback):
-  """Print solutions."""
+  def check_place(self, positions, ocuppied_rows, column):
+    for i in range(ocuppied_rows):
+      if positions[i] == column or \
+        positions[i] - i == column - ocuppied_rows or \
+        positions[i] + i == column + ocuppied_rows:
+        return False
+    return True
 
-  def __init__(self, variables, limit,board_size):
-    cp_model.CpSolverSolutionCallback.__init__(self)
-    self.__variables = variables
-    self.__solution_count = 0
-    self.__solution_limit = limit
-    self.__board_size = board_size
-    self.returnResult = []
-
-  def OnSolutionCallback(self):
-    self.__solution_count += 1
-    result=""
-    for v in self.__variables:
-      print('col %s - row %i,' % (v, self.Value(v)), end = ' ')
-      result+="col "+str(v)+" - row: "+str(self.Value(v))+", "
-      self.returnResult.append(str(v))
-      self.returnResult.append(str(self.Value(v)))
-    insert_result_queens_puzzle(self.__board_size,result)
-    print()
-    if self.__solution_count >= self.__solution_limit:
-        self.StopSearch()
-
+  def show_solution(self, positions):
+    for row in range(self.size):
+      for column in range(self.size):
+        if positions[row] == column:
+          self.queenSolution+=f"row {row}-col {column},"
+    print("-----------------------")
+    print(self.queenSolution)
+    print("-----------------------")
+    insert_result_queens_puzzle(self.size,self.queenSolution)
 
 if __name__ == '__main__':
   check_database_exist()
@@ -82,6 +55,7 @@ if __name__ == '__main__':
   
   if board_size > 0:
     print("The result is:")
-    print(solve_puzzle(board_size))
+    #solve_puzzle(board_size)
+    QueenSolve(board_size)
   elif board_size == -1:
     show_results_queens_puzzle()
