@@ -7,12 +7,12 @@ This libraries need to be installed before running the script.
 2) **sqlalchemy:**  is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL. https://www.sqlalchemy.org/
 
 ## running test
-Use the command python3 -m pytest
+Use the command pytest, in the container need to use the command this way: pytest test_eight_queens_puzzle.py 
 
 ## Run Script
-1) **./eight_queens_puzzle.py**: solve the queen puzzle with a board of 8x8
-2) **./eight_queens_puzzle.py N**: solve the queen puzzle with a board of NxN
-2) **./eight_queens_puzzle.py -1**: Show all the results of the previous running of the Script.
+1) **python eight_queens_puzzle.py**: solve the queen puzzle with a board of 8x8
+2) **python eight_queens_puzzle.py N**: solve the queen puzzle with a board of NxN
+2) **python eight_queens_puzzle.py -1**: Show all the results of the previous running of the Script.
 
 ## Run Script using Docker-Compose
 1) **make docker-build**: create the images, containers and networks.
